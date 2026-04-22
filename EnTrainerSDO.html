@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>📘 English Trainer · Glossary & Reading</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #1e2b38;
+      margin: 0;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.25s ease;
+    }
+
+    /* === ТЕМЫ === */
+    body.theme-light {
+      background: #f5f7fa;
+    }
+    body.theme-light .card {
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+    body.theme-light h1, body.theme-light h2, body.theme-light h3,
+    body.theme-light .progress, body.theme-light .info-text, 
+    body.theme-light .word-list label, body.theme-light .mode-badge, 
+    body.theme-light .question-word, body.theme-light .result-text, 
+    body.theme-light .extra-info-line, body.theme-light .reading-section,
+    body.theme-light .en-paragraph, body.theme-light .stat-text,
+    body.theme-light .quiz-prompt, body.theme-light .stats-value {
+      color: #1e293b;
+    }
+    body.theme-light .list-item {
+      background: #f8fafc;
+      border: 1px solid #dee4ed;
+    }
+    body.theme-light .list-item label {
+      color: #1e293b;
+    }
+    body.theme-light .list-item small {
+      color: #64748b;
+    }
+    body.theme-light input {
+      background: white;
+      border: 2px solid #cbd5e1;
+      color: #0f172a;
+    }
+    body.theme-light input::placeholder {
+      color: #94a3b8;
+    }
+    body.theme-light button {
+      color: white;
+    }
+    body.theme-light button.btn-gray {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    body.theme-light button.btn-outline {
+      background: transparent;
+      border: 1px solid #94a3b8;
+      color: #1e293b;
+    }
+    body.theme-light .home-btn,
+    body.theme-light .info-btn {
+      background: #e2e8f0;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+    }
+    body.theme-light .theme-btn {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    body.theme-light .result-neutral {
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+    body.theme-light .ru-paragraph {
+      color: #475569;
+    }
+    body.theme-light .modal-content {
+      background: white;
+      color: #1e293b;
+    }
+    body.theme-light .badge-stats {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    body.theme-medium {
+      background: #2c3e50;
+    }
+    body.theme-medium .card {
+      background: #34495e;
+    }
+
+    body.theme-dark {
+      background: #0f172a;
+    }
+    body.theme-dark .card {
+      background: #1e293b;
+    }
+
+    /* общие стили */
+    .container {
+      max-width: 550px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 8px;
+    }
+
+    .card {
+      background: #34495e;
+      border-radius: 24px;
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+      color: white;
+      text-align: center;
+      margin: 0 0 20px 0;
+      font-size: 1.6em;
+      font-weight: 600;
+    }
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 18px;
+    }
+
+    .word-list {
+      background: rgba(0,0,0,0.1);
+      border-radius: 18px;
+      padding: 6px 8px;
+      margin-bottom: 12px;
+    }
+
+    .list-item {
+      background: #3d566e;
+      margin: 8px 0;
+      padding: 14px 14px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      transition: 0.1s;
+    }
+
+    .list-item input {
+      margin-right: 14px;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      accent-color: #27ae60;
+    }
+
+    .list-item label {
+      color: white;
+      font-size: 15px;
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .list-item small {
+      color: #bdc3c7;
+      font-size: 13px;
+      margin-left: 8px;
+    }
+
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      margin: 6px 4px;
+      transition: all 0.15s;
+      touch-action: manipulation;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    button:active { transform: scale(0.97); }
+    .btn-green { background: #27ae60; }
+    .btn-orange { background: #e67e22; }
+    .btn-gray { background: #7f8c8d; }
+    .btn-red { background: #e74c3c; }
+    .btn-outline { background: transparent; border: 1px solid #95a5a6; color: #ecf0f1; }
+
+    .question-box { text-align: center; padding: 12px 0; }
+    .question-word {
+      font-size: 32px;
+      font-weight: bold;
+      color: #f1c40f;
+      word-wrap: break-word;
+      margin: 20px 0 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 18px;
+      font-size: 16px;
+      border: 2px solid #3d566e;
+      border-radius: 40px;
+      background: white;
+      margin: 16px 0 10px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .result {
+      padding: 16px 14px;
+      border-radius: 24px;
+      margin: 18px 0 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .result-correct { background: #27ae60; color: white; }
+    .result-wrong { background: #e74c3c; color: white; }
+    .result-neutral { 
+      background: #5d6d7e; 
+      color: white;
+    }
+
+    .extra-info {
+      font-size: 13px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      text-align: left;
+    }
+    .extra-info-line {
+      margin: 4px 0;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .progress {
+      color: #ecf0f1;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 20px 0 8px;
+    }
+    .button-group button { flex: 1; }
+
+    .mode-badge {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .info-text {
+      color: #b0c4de;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 22px;
+      line-height: 1.5;
+    }
+
+    .home-corner {
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .home-left {
+      display: flex;
+      gap: 8px;
+    }
+    .home-right {
+      display: flex;
+      gap: 8px;
+    }
+    .home-btn, .info-btn {
+      background: #3d566e;
+      padding: 10px 16px;
+      border-radius: 40px;
+      font-size: 14px;
+      box-shadow: none;
+      border: 1px solid #5d7a97;
+    }
+    .info-btn {
+      padding: 10px 14px;
+      font-weight: bold;
+    }
+
+    .quiz-prompt {
+      color: white;
+      margin: 12px;
+    }
+
+    /* reading */
+    .reading-section {
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 4px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.08);
+      padding: 14px 16px;
+      margin: 16px 0 8px;
+    }
+    .en-paragraph {
+      color: #f0f3f8;
+      margin: 20px 0 8px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .ru-paragraph {
+      color: #b7c9e2;
+      margin-bottom: 24px;
+      line-height: 1.6;
+      padding-left: 12px;
+      border-left: 3px solid #e67e22;
+    }
+    body.theme-light .en-paragraph { color: #0b1e2e; }
+    body.theme-light .ru-paragraph { color: #2c3e50; }
+
+    .hidden-translation .ru-paragraph { display: none; }
+
+    .theme-row {
+      display: flex;
+      gap: 8px;
+    }
+    .theme-btn {
+      padding: 8px 14px;
+      font-size: 14px;
+      background: #2c3e50;
+      border-radius: 30px;
+    }
+
+    .badge-stats {
+      background: #3d566e;
+      border-radius: 40px;
+      padding: 12px;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    /* модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #2c3e50;
+      max-width: 400px;
+      width: 90%;
+      padding: 24px;
+      border-radius: 32px;
+      color: white;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .modal-content h3 {
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+    .modal-content p {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="theme-medium">
+<div class="container" id="app"></div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- СЛОВАРИ ----------
+    const DICTIONARIES = {
+  "📖 Unit 1: History of Printing": [
+    ["printing", "печать, печатное дело", "/ˈprɪntɪŋ/", "при́нтинг"],
+    ["publishing", "издательское дело", "/ˈpʌblɪʃɪŋ/", "па́блишинг"],
+    ["reproduce", "воспроизводить", "/ˌriːprəˈdjuːs/", "рипрэдью́с"],
+    ["surface", "поверхность", "/ˈsɜːfɪs/", "сё́рфис"],
+    ["wooden matrices", "деревянные формы", "/ˈwʊdn ˈmeɪtrɪsiːz/", "ву́дн мэ́йтрисиз"],
+    ["movable type", "подвижный шрифт", "/ˈmuːvəbl taɪp/", "му́вэбл тайп"],
+    ["cast", "образец", "/kɑːst/", "каст"],
+    ["letterpunch", "пуансон", "/ˈletəpʌntʃ/", "лэ́тэпанч"],
+    ["individual character", "печатный символ, литера", "/ˌɪndɪˈvɪdʒuəl ˈkærəktə/", "индив́иджуэл кэ́рэктэ"],
+    ["engraving", "гравирование", "/ɪnˈɡreɪvɪŋ/", "ингрэ́йвинг"],
+    ["gravure printing", "глубокая печать", "/ɡrəˈvjʊr ˈprɪntɪŋ/", "гравю́р при́нтинг"],
+    ["letterpress", "высокая печать", "/ˈletəpres/", "лэ́тэпрэс"],
+    ["impression", "оттиск", "/ɪmˈpreʃən/", "импрэ́шэн"],
+    ["water soluble solution", "водорастворимый раствор", "/ˈwɔːtə ˈsɒljubl səˈluːʃən/", "во́тэ со́льюбл солу́шэн"],
+    ["offset printing", "офсетная печать", "/ˈɒfset ˈprɪntɪŋ/", "о́фсэт при́нтинг"],
+    ["screen printing", "трафаретная печать", "/skriːn ˈprɪntɪŋ/", "скрин при́нтинг"],
+    ["xerography", "ксерография", "/zɪˈrɒɡrəfi/", "зиро́графи"],
+    ["inkjet printing", "струйная печать", "/ˈɪŋkdʒet ˈprɪntɪŋ/", "и́нкджет при́нтинг"],
+    ["digital printing", "цифровая печать", "/ˈdɪdʒɪtl ˈprɪntɪŋ/", "ди́джитл при́нтинг"],
+    ["3D printing", "3D печать", "/θriː diː ˈprɪntɪŋ/", "сри ди при́нтинг"],
+    ["print run", "печатный тираж", "/prɪnt rʌn/", "принт ран"],
+    ["rotary press", "ротационная печатная машина", "/ˈrəʊtəri pres/", "ро́тэри прэс"],
+    ["printing areas", "печатные элементы", "/ˈprɪntɪŋ ˈeəriəz/", "при́нтинг э́риас"],
+    ["nonprinting areas", "пробельные элементы", "/nɒnˈprɪntɪŋ ˈeəriəz/", "нонпри́нтинг э́риас"]
+  ],
+  "📘 Unit 2: Prepress": [
+    ["prepress", "допечатная подготовка", "/ˈpriːpres/", "при́прэс"],
+    ["image", "изображение", "/ˈɪmɪdʒ/", "и́мидж"],
+    ["graphics", "графический материал", "/ˈɡræfɪks/", "грэ́фикс"],
+    ["conventional", "традиционный", "/kənˈvenʃənl/", "конвэ́ншэнл"],
+    ["typesetting", "набор", "/ˈtaɪpsetɪŋ/", "та́йпсэтинг"],
+    ["film", "пленка", "/fɪlm/", "филм"],
+    ["intermediate", "промежуточная форма", "/ˌɪntəˈmiːdiət/", "интэми́диэт"],
+    ["text data", "текстовый оригинал", "/tekst ˈdeɪtə/", "тэкст дэ́йтэ"],
+    ["word processing", "обработка текста", "/wɜːd ˈprəʊsesɪŋ/", "вёд про́усесинг"],
+    ["layout program", "программа компоновки страниц", "/ˈleɪaʊt ˈprəʊɡræm/", "лэ́йаут про́угрэм"],
+    ["edit", "редактировать, готовить к печати", "/ˈedɪt/", "э́дит"],
+    ["reflection copy", "непрозрачный оригинал, негатив", "/rɪˈflekʃən ˈkɒpi/", "рифлэ́кшэн ко́пи"],
+    ["copy-editing", "редактирование копий", "/ˈkɒpi ˈedɪtɪŋ/", "ко́пи э́дитинг"],
+    ["markup", "верстка", "/ˈmɑːkʌp/", "ма́ркап"],
+    ["imagesetter", "устройство вывода изображения", "/ˈɪmɪdʒsetə/", "и́миджсэтэ"],
+    ["proofing", "корректура", "/ˈpruːfɪŋ/", "пру́финг"],
+    ["proofreading", "вычитка, корректорская правка", "/ˈpruːfriːdɪŋ/", "пру́фридинг"],
+    ["imposition", "спуск полос", "/ˌɪmpəˈzɪʃən/", "импэзи́шэн"],
+    ["platemaking", "изготовление печатной формы", "/ˈpleɪtmeɪkɪŋ/", "плэ́йтмэйкинг"],
+    ["bleed settings", "параметр выхода за край", "/bliːd ˈsetɪŋz/", "блид сэ́тингз"],
+    ["computer to plate technology", "технология компьютер-печатная форма", "/kəmˈpjuːtə tə pleɪt tekˈnɒlədʒi/", "кэмпью́тэ ту плэйт тэкно́лоджи"],
+    ["run", "тираж", "/rʌn/", "ран"]
+  ],
+  "📗 Unit 3: Letterpress & Flexography": [
+    ["relief printing", "высокая печать / рельефная печать", "/rɪˈliːf ˈprɪntɪŋ/", "рили́ф при́нтинг"],
+    ["flexible plate", "гибкая печатная форма", "/ˈfleksəbl pleɪt/", "флэ́ксэбл плэйт"],
+    ["film", "пленка", "/fɪlm/", "филм"],
+    ["to expose", "экспонировать", "/tə ɪkˈspəʊz/", "ту икспо́уз"],
+    ["ink", "печатная краска", "/ɪŋk/", "инк"],
+    ["substrate", "подложка, запечатываемый материал", "/ˈsʌbstreɪt/", "са́бстрэйт"],
+    ["rotating cylinder", "вращающийся цилиндр", "/rəʊˈteɪtɪŋ ˈsɪlɪndə/", "роутэ́йтинг си́линдэ"],
+    ["impression", "оттиск", "/ɪmˈpreʃən/", "импрэ́шэн"],
+    ["low viscosity inks", "краска с низкой вязкостью", "/ləʊ vɪsˈkɒsəti ɪŋks/", "лоу виско́сэти инкс"],
+    ["resilient", "упругий", "/rɪˈzɪliənt/", "ризи́лиэнт"],
+    ["photopolymeric plastic", "фотополимерный пластик", "/ˌfəʊtəʊˌpɒlɪˈmerɪk ˈplæstɪk/", "фоутоупо́лимэрик плэ́стик"],
+    ["rough surface", "шероховатая поверхность", "/rʌf ˈsɜːfɪs/", "раф сё́рфис"],
+    ["corrugated board", "гофрокартон", "/ˈkɒrəɡeɪtɪd bɔːd/", "ко́рэгэйтид бо́д"],
+    ["metal foil", "металлическая фольга", "/ˈmetl fɔɪl/", "мэ́тл фойл"],
+    ["composite materials", "композиционные материалы", "/ˈkɒmpəzɪt məˈtɪəriəlz/", "ко́мпэзит мэти́риэлз"],
+    ["sheetfed flatbed press", "листовой планшетный пресс", "/ˈʃiːtfed ˈflætbed pres/", "ши́тфэд флэ́тбэд прэс"],
+    ["rotary webfed press", "ротационный рулонный пресс", "/ˈrəʊtəri ˈwebfed pres/", "ро́тэри вэ́бфэд прэс"],
+    ["sleeve technology", "технология втулок", "/sliːv tekˈnɒlədʒi/", "слив тэкно́лоджи"],
+    ["fountain roller", "дукторный вал красочного аппарата", "/ˈfaʊntɪn ˈrəʊlə/", "фа́унтин ро́улэ"],
+    ["anilox roller", "анилоксовый вал", "/ˈænɪlɒks ˈrəʊlə/", "э́нилокс ро́улэ"],
+    ["doctor blade", "ракельный нож", "/ˈdɒktə bleɪd/", "до́ктэ блэйд"],
+    ["time-consuming", "трудоемкий", "/ˈtaɪm kənˌsjuːmɪŋ/", "та́йм консью́минг"]
+  ],
+  "📙 Unit 4: Offset Printing": [
+    ["lithography", "литография", "/lɪˈθɒɡrəfi/", "лито́графи"],
+    ["blanket cylinder", "офсетный цилиндр", "/ˈblæŋkɪt ˈsɪlɪndə/", "блэ́нкит си́линдэ"],
+    ["coating", "покрытие", "/ˈkəʊtɪŋ/", "ко́утинг"],
+    ["to fasten", "прикреплять", "/tə ˈfɑːsən/", "ту фа́сэн"],
+    ["flat", "плоский, нерельефный", "/flæt/", "флэт"],
+    ["to transfer", "переносить", "/tə trænsˈfɜː/", "ту трансфё́"],
+    ["sheet-fed presses", "печатные машины с листовой подачей", "/ˈʃiːtfed ˈpresɪz/", "ши́тфэд прэ́сиз"],
+    ["web-fed presses", "печатные машины с рулонной подачей", "/ˈwebfed ˈpresɪz/", "вэ́бфэд прэ́сиз"],
+    ["oleophilic", "олеофильный", "/ˌəʊliəʊˈfɪlɪk/", "оулиоуфи́лик"],
+    ["hydrophobic", "гидрофобный", "/ˌhaɪdrəʊˈfəʊbɪk/", "хайдроуфо́убик"],
+    ["dampening system", "увлажняющая система", "/ˈdæmpənɪŋ ˈsɪstəm/", "дэ́мпэнинг си́стэм"],
+    ["dampening solution", "увлажняющий раствор", "/ˈdæmpənɪŋ səˈluːʃən/", "дэ́мпэнинг солу́шэн"],
+    ["additive", "добавка", "/ˈædətɪv/", "э́дэтив"],
+    ["graining", "зернистость", "/ˈɡreɪnɪŋ/", "грэ́йнинг"],
+    ["oxidation", "окисление", "/ˌɒksɪˈdeɪʃən/", "оксидэ́йшэн"],
+    ["vehicle", "связующее вещество", "/ˈviːɪkl/", "ви́икл"],
+    ["abrasion", "истирание", "/əˈbreɪʒən/", "эбрэ́йжэн"],
+    ["properties", "свойства", "/ˈprɒpətiz/", "про́пэтиз"],
+    ["evaporation", "испарение", "/ɪˌvæpəˈreɪʃən/", "ивэпэрэ́йшэн"],
+    ["fluctuation", "колебание", "/ˌflʌktʃuˈeɪʃən/", "флакчуэ́йшэн"],
+    ["circumference", "окружность", "/səˈkʌmfərəns/", "сёка́мфэрэнс"],
+    ["gripper", "захват", "/ˈɡrɪpə/", "гри́пэ"],
+    ["printing nip", "полоса печатного контакта", "/ˈprɪntɪŋ nɪp/", "при́нтинг нип"]
+  ],
+  "📕 Unit 5: Gravure Printing": [
+    ["gravure printing", "глубокая печать", "/ɡrəˈvjʊr ˈprɪntɪŋ/", "гравю́р при́нтинг"],
+    ["to etch", "гравировать, травить на металле", "/tə etʃ/", "ту эч"],
+    ["cell", "ячейка", "/sel/", "сэл"],
+    ["acid", "кислота", "/ˈæsɪd/", "э́сид"],
+    ["intaglio", "глубокая печать, гравюрный оттиск", "/ɪnˈtæliəʊ/", "инта́лиоу"],
+    ["intaglio areas", "области глубокой печати", "/ɪnˈtæliəʊ ˈeəriəz/", "инта́лиоу э́риас"],
+    ["doctor blade", "ракельный нож", "/ˈdɒktə bleɪd/", "до́ктэ блэйд"],
+    ["to remove excess ink", "удалить излишки краски", "/tə rɪˈmuːv ɪkˈses ɪŋk/", "ту риму́в иксэ́с инк"],
+    ["resilient", "эластичный", "/rɪˈzɪliənt/", "ризи́лиэнт"],
+    ["engraving", "гравюра", "/ɪnˈɡreɪvɪŋ/", "ингрэ́йвинг"],
+    ["etching", "травление", "/ˈetʃɪŋ/", "э́чинг"],
+    ["depression", "углубление", "/dɪˈpreʃən/", "дипрэ́шэн"],
+    ["gapless gravure cylinder", "глубокий цилиндр без зазора", "/ˈɡæpləs ɡrəˈvjʊr ˈsɪlɪndə/", "гэ́плэс гравю́р си́линдэ"],
+    ["thick-walled", "толстостенный", "/θɪk wɔːld/", "сик во́лд"],
+    ["pigment paper", "пигментная бумага", "/ˈpɪɡmənt ˈpeɪpə/", "пи́гмэнт пэ́йпэ"],
+    ["penetrate", "проникать", "/ˈpenɪtreɪt/", "пэ́нитрэйт"],
+    ["laser beam", "лазерный луч", "/ˈleɪzə biːm/", "лэ́йзэ би́м"],
+    ["solid-state laser", "твердотельный лазер", "/ˈsɒlɪd steɪt ˈleɪzə/", "со́лид стэйт лэ́йзэ"],
+    ["grinding", "растир краски", "/ˈɡraɪndɪŋ/", "гра́йндинг"],
+    ["saw tooth effect", "эффект зуба пилы", "/sɔː tuːθ ɪˈfekt/", "со ту́с ифэ́кт"],
+    ["deflection", "отклонение", "/dɪˈflekʃən/", "дифлэ́кшэн"],
+    ["ink meniscus", "красочный мениск", "/ɪŋk mɪˈnɪskəs/", "инк мини́скэс"],
+    ["indented elements", "элементы с отступами", "/ɪnˈdentɪd ˈelɪmənts/", "индэ́нтид э́лимэнтс"],
+    ["ink splashing", "разбрызгивание краски", "/ɪŋk ˈsplæʃɪŋ/", "инк сплэ́шинг"],
+    ["ink trough", "красочный резервуар", "/ɪŋk trɒf/", "инк троф"]
+  ],
+  "📔 Unit 6: Screen Printing": [
+    ["screen", "трафаретная печатная форма, сетчатый трафарет", "/skriːn/", "скрин"],
+    ["mesh", "сетка", "/meʃ/", "мэш"],
+    ["stencil", "шаблон", "/ˈstensəl/", "стэ́нсэл"],
+    ["squeegee", "резиновый ракель", "/ˈskwiːdʒiː/", "скви́джи"],
+    ["aperture", "апертура, отверстие", "/ˈæpətʃə/", "э́пэчэ"],
+    ["impermeable", "непроницаемый", "/ɪmˈpɜːmiəbl/", "импё́миэбл"],
+    ["flood bar", "орошающая полоса", "/flʌd bɑː/", "флад ба"],
+    ["rear", "тыльная сторона", "/rɪə/", "ри́э"],
+    ["application", "применение", "/ˌæplɪˈkeɪʃən/", "апликэ́йшэн"],
+    ["large-scale", "полномасштабный", "/lɑːdʒ skeɪl/", "ладж скэйл"],
+    ["spray gun", "распылитель краски", "/spreɪ ɡʌn/", "спрэй ган"],
+    ["airbrush", "аэрограф", "/ˈeəbrʌʃ/", "э́абраш"],
+    ["masking part", "выкрывающий элемент", "/ˈmɑːskɪŋ pɑːt/", "ма́скинг пат"],
+    ["motif", "рисунок", "/məʊˈtiːf/", "моути́ф"],
+    ["flooding", "заливка", "/ˈflʌdɪŋ/", "фла́динг"],
+    ["seam", "шов", "/siːm/", "си́м"],
+    ["drying rack", "сушильная тележка", "/ˈdraɪɪŋ ræk/", "дра́йинг рэк"],
+    ["blower", "воздуходувный аппарат", "/ˈbləʊə/", "бло́уэ"]
+  ],
+  "📓 Unit 7: Non-Impact Printing": [
+    ["non-impact printing technologies", "бесконтактные печатные технологии", "/nɒn ˈɪmpækt ˈprɪntɪŋ tekˈnɒlədʒiz/", "нон и́мпэкт при́нтинг тэкно́лоджиз"],
+    ["digital source", "цифровой источник", "/ˈdɪdʒɪtl sɔːs/", "ди́джитл сос"],
+    ["print-on-demand", "печать по требованию", "/prɪnt ɒn dɪˈmɑːnd/", "принт он дима́нд"],
+    ["variable data printing", "печать переменных данных", "/ˈveəriəbl ˈdeɪtə ˈprɪntɪŋ/", "вэ́риэбл дэ́йтэ при́нтинг"],
+    ["personalized printing", "персонализированная печать", "/ˈpɜːsənəlaɪzd ˈprɪntɪŋ/", "пё́сэнэлайзд при́нтинг"],
+    ["intermediate carrier", "промежуточный носитель", "/ˌɪntəˈmiːdiət ˈkæriə/", "интэми́диэт кэ́риэ"],
+    ["photoconductive coating", "фотопроводящее покрытие", "/ˌfəʊtəʊkənˈdʌktɪv ˈkəʊtɪŋ/", "фоутоукэнда́ктив ко́утинг"],
+    ["charged image", "заряженное изображение", "/tʃɑːdʒd ˈɪmɪdʒ/", "чаджд и́мидж"],
+    ["permanent information", "постоянная информация", "/ˈpɜːmənənt ˌɪnfəˈmeɪʃən/", "пё́мэнэнт инфэмэ́йшэн"],
+    ["latent image", "скрытое изображение", "/ˈleɪtənt ˈɪmɪdʒ/", "лэ́йтэнт и́мидж"],
+    ["electrophotography", "электрофотография", "/ɪˌlektrəʊfəʊˈtɒɡrəfi/", "илэктроуфоуто́графи"],
+    ["iconography", "ионография", "/ˌaɪkəˈnɒɡrəfi/", "айконо́графи"],
+    ["magnetography", "магнитография", "/mæɡˌniːtəʊˈɡræfi/", "мэгнитоугрэ́фи"],
+    ["thermography", "термография", "/θɜːˈmɒɡrəfi/", "сёмо́графи"],
+    ["photography", "фотография", "/fəˈtɒɡrəfi/", "фэто́графи"],
+    ["powder toner", "порошкообразный тонер", "/ˈpaʊdə ˈtəʊnə/", "па́удэ то́унэ"],
+    ["liquid toner", "жидкий тонер", "/ˈlɪkwɪd ˈtəʊnə/", "ли́квид то́унэ"],
+    ["hot-melt inks", "термоплавкая краска", "/hɒt melt ɪŋks/", "хот мэлт инкс"]
+  ],
+  "📒 Unit 8: Print Finishing": [
+    ["trimming", "трехсторонняя обрезка", "/ˈtrɪmɪŋ/", "три́минг"],
+    ["folding", "фальцовка", "/ˈfəʊldɪŋ/", "фо́улдинг"],
+    ["collating", "компоновка блока", "/kəˈleɪtɪŋ/", "кэлэ́йтинг"],
+    ["binding", "переплет", "/ˈbaɪndɪŋ/", "ба́йндинг"],
+    ["embossing", "тиснение", "/ɪmˈbɒsɪŋ/", "имбо́синг"],
+    ["coating", "покрытие", "/ˈkəʊtɪŋ/", "ко́утинг"],
+    ["laminating", "ламинирование", "/ˈlæmɪneɪtɪŋ/", "лэ́минэйтинг"],
+    ["die-cutting", "вырубная штамповка", "/daɪ ˈkʌtɪŋ/", "дай ка́тинг"],
+    ["assortment of sheets", "подбор листов", "/əˈsɔːtmənt əv ʃiːts/", "эсо́тмэнт ов шитс"],
+    ["buckle fold principle", "кассетная фальцовка", "/ˈbʌkl fəʊld ˈprɪnsəpl/", "ба́кл фоулд при́нсипл"],
+    ["forwarding", "обработка корешка книжного блока", "/ˈfɔːwədɪŋ/", "фо́уэдинг"],
+    ["inserting", "комплектовка вкладкой", "/ɪnˈsɜːtɪŋ/", "инсё́тинг"],
+    ["loosely inserted", "свободно вставленный", "/ˈluːsli ɪnˈsɜːtɪd/", "лу́сли инсё́тид"],
+    ["gathering", "подборка, комплектовка", "/ˈɡæðərɪŋ/", "гэ́зэринг"],
+    ["signature", "тетрадь", "/ˈsɪɡnətʃə/", "си́гнэчэ"],
+    ["assembling", "подборка тетрадей", "/əˈsemblɪŋ/", "эсэ́мблинг"],
+    ["casemaking", "изготовление переплетных крышек", "/ˈkeɪsmeɪkɪŋ/", "кэ́йсмэйкинг"],
+    ["covering", "переплет", "/ˈkʌvərɪŋ/", "ка́вэринг"],
+    ["book finishing", "отделка книги", "/bʊk ˈfɪnɪʃɪŋ/", "бук фи́нишинг"],
+    ["casing-in", "вставка книжного блока в переплет", "/ˈkeɪsɪŋ ɪn/", "кэ́йсинг ин"],
+    ["smashing", "обжим блока", "/ˈsmæʃɪŋ/", "смэ́шинг"],
+    ["jacketing", "изготовление суперобложки", "/ˈdʒækɪtɪŋ/", "джэ́китинг"],
+    ["packaging", "изготовление упаковки", "/ˈpækɪdʒɪŋ/", "пэ́киджинг"],
+    ["distribution", "выдача, рассылка", "/ˌdɪstrɪˈbjuːʃən/", "дистрибью́шэн"]
+  ]
+};
+
+    // ---------- ТЕКСТЫ ----------
+const READING_TEXTS = {
+  "📜 Unit 1: History of Printing": {
+    paragraphs: [
+      { en: "Printing is a process for reproducing text and image, typically with ink on paper using a printing press. It is often carried out as a large-scale industrial process, and is an essential part of publishing and transaction printing.", 
+        ru: "Печать — это процесс воспроизведения текста и изображения, обычно с использованием краски на бумаге с помощью печатного станка. Часто это крупномасштабный промышленный процесс, являющийся неотъемлемой частью издательского дела и транзакционной печати." },
+      { en: "The history of printing began as an attempt to make easier and reduce the cost of reproducing multiple copies of documents, fabrics and wall papers. Woodblock printing is a technique for printing text, images or patterns used widely throughout East Asia and originating in China in antiquity as a method of printing on textiles and later paper. Wooden matrices were used for this purpose. Movable type is the system of printing and typography using movable pieces of metal type, made by casting from matrices struck by letterpunches. Around 1040, the first known movable type system was created in China by Bi Sheng out of porcelain. Metal movable type was first invented in Korea during the Goryeo Dynasty (around 1230). Neither movable type system was widely used, one reason being the enormous Chinese character set.", 
+        ru: "История печати началась как попытка упростить и удешевить воспроизведение множества копий документов, тканей и обоев. Ксилография — техника печати текста, изображений или узоров, широко использовавшаяся в Восточной Азии и возникшая в Китае в древности как способ печати на тканях, а позже на бумаге. Для этого использовались деревянные формы. Подвижный шрифт — система печати и типографики с использованием подвижных металлических литер, отлитых из матриц, выбитых пунсонами. Около 1040 года первая известная система подвижного шрифта была создана в Китае Би Шэном из фарфора. Металлический подвижный шрифт был впервые изобретен в Корее во времена династии Корё (около 1230 года). Ни одна из систем подвижного шрифта не получила широкого распространения, одной из причин был огромный набор китайских иероглифов." },
+      { en: "It is traditionally believed that Johannes Gutenberg, of the German city of Mainz, developed European printing technology around 1439 and in just over a decade, the European age of printing began. Gutenberg's invention of the printing press revolutionized communication and book production leading to the spread of knowledge. Rapidly, printing spread from Germany by emigrating German printers, but also by foreign apprentices returning home.", 
+        ru: "Традиционно считается, что Иоганн Гутенберг из немецкого города Майнц разработал европейскую технологию печати около 1439 года, и чуть более чем за десятилетие началась европейская эра книгопечатания. Изобретение Гутенбергом печатного станка произвело революцию в коммуникации и книгоиздании, что привело к распространению знаний. Печать быстро распространилась из Германии благодаря эмигрировавшим немецким печатникам, а также иностранным подмастерьям, возвращавшимся домой." },
+      { en: "Ivan Fedorov was one of the fathers of Russian printing. He was also a master cannon maker and the inventor of a multibarreled mortar.", 
+        ru: "Иван Фёдоров был одним из отцов русского книгопечатания. Он также был мастером пушечного дела и изобретателем многоствольной мортиры." },
+      { en: "Letterpress is the oldest printing technology invented by Gutenberg in 1440. His invention is based on three things: cast print types, a hand-casting instrument and a printing press designed for this purpose, which was adapted from the wine presses of the time. For many centuries the platen design of this hand press remained the only design for printing presses.", 
+        ru: "Высокая печать — старейшая технология печати, изобретенная Гутенбергом в 1440 году. Его изобретение основано на трех вещах: литых печатных литерах, ручном отливном инструменте и печатном станке, сконструированном для этой цели и адаптированном из винных прессов того времени. На протяжении многих веков тигельная конструкция этого ручного станка оставалась единственной конструкцией печатных машин." },
+      { en: "Intaglio engraving (gravure), as a method of making prints, was invented in Germany by the 1430s, after the woodcut print. Engraving had been used by goldsmiths to decorate metalwork, including armour, musical instruments and religious objects since ancient times. It has been suggested that goldsmiths began to print impressions of their work to record the design, and that printmaking developed from that. The golden age of artists engraving was 1450-1550. Today intaglio engraving is largely used for currency, banknotes, passports and occasionally for high-value postage stamps.", 
+        ru: "Глубокая гравюра, как метод создания оттисков, была изобретена в Германии к 1430-м годам, после ксилографии. Гравирование использовалось золотых дел мастерами для украшения металлических изделий, включая доспехи, музыкальные инструменты и религиозные предметы с древних времен. Предполагается, что золотых дел мастера начали печатать оттиски своих работ для записи дизайна, и что гравюра развилась из этого. Золотой век художественной гравюры пришелся на 1450-1550 годы. Сегодня глубокая гравюра в основном используется для валюты, банкнот, паспортов и иногда для дорогих почтовых марок." },
+      { en: "Lithography was invented by Alois Senefelder in 1796. In the early days of lithography, a smooth piece of limestone was used (hence the name 'lithography'—'lithos' is the ancient Greek word for stone). After the oil-based image was put on the surface gum arabic, a water soluble solution, was then applied, sticking only to the non-oily surface and sealing it. During printing, water adhered to the gum arabic surfaces and avoided the oily parts, while the oily ink used for printing did the opposite.", 
+        ru: "Литография была изобретена Алоизом Зенефельдером в 1796 году. В ранние дни литографии использовался гладкий кусок известняка (отсюда и название «литография» — «литос» по-древнегречески означает камень). После нанесения масляного изображения на поверхность наносился гуммиарабик, водорастворимый раствор, прилипающий только к немаcляной поверхности и запечатывающий ее. Во время печати вода прилипала к поверхностям с гуммиарабиком и избегала масляных частей, в то время как масляная краска, используемая для печати, делала противоположное." },
+      { en: "Offset press was invented in 1870s. Offset printing is the major lithographic technology. It is an indirect lithographic technology, in which the ink is first transferred from the printing plate onto a flexible intermediate carrier – the blanket – and then onto the substrate. Offset printing has spread markedly since approximately 1970 and has, to a great extent, ousted the letterpress printing technology which prevailed until that time. The offset printing technology is now a widely spread printing technology.", 
+        ru: "Офсетный станок был изобретен в 1870-х годах. Офсетная печать является основной литографической технологией. Это непрямая литографическая технология, при которой краска сначала переносится с печатной формы на гибкий промежуточный носитель — офсетное полотно — а затем на запечатываемый материал. Офсетная печать заметно распространилась примерно с 1970 года и в значительной степени вытеснила технологию высокой печати, преобладавшую до того времени. Сейчас офсетная печать является широко распространенной технологией." },
+      { en: "Screen printing process originated from patents taken out by Samuel Simon in 1907 in England. This idea was then adopted in San Francisco, California, by John Pilsworth in 1914 who used screen printing to form multicolor prints in a subtractive mode, differing from screen printing as it is done today.", 
+        ru: "Процесс трафаретной печати берет начало от патентов, полученных Сэмюэлом Саймоном в 1907 году в Англии. Затем эта идея была принята в Сан-Франциско, Калифорния, Джоном Пилсвортом в 1914 году, который использовал трафаретную печать для создания многоцветных оттисков в субтрактивном режиме, что отличается от того, как трафаретная печать выполняется сегодня." },
+      { en: "Xerography was introduced by Xerox in the 1960s, and over the following 20 years it gradually replaced copies made by Verifax, Photostat, carbon paper, mimeograph machines, and other duplicating machines. The prevalence of its use is one of the factors that prevented the development of the paperless office heralded early in the digital revolution. The laser printer, based on a modified xerographic copier, was invented at Xerox in 1969. Laser printing eventually became a multibillion-dollar business for Xerox. In 1970 the first dot matrix printer (or impact printer) LA 30 was introduced by Digital Equipment Corporation of Maynard, Massachusetts.", 
+        ru: "Ксерография была представлена Xerox в 1960-х годах, и в течение последующих 20 лет она постепенно заменила копии, сделанные с помощью Verifax, Photostat, копировальной бумаги, мимеографов и других копировальных машин. Распространенность ее использования является одним из факторов, помешавших развитию безбумажного офиса, предсказанного на заре цифровой революции. Лазерный принтер, основанный на модифицированном ксерографическом копире, был изобретен в Xerox в 1969 году. Лазерная печать со временем стала многомиллиардным бизнесом для Xerox. В 1970 году первый матричный принтер LA 30 был представлен Digital Equipment Corporation из Мейнарда, Массачусетс." },
+      { en: "Inkjet printing. The principle of inkjet printing was discovered by Canon engineer in 1977. Inkjet printers operate by propelling variably-sized droplets of liquid or molten material (ink) onto almost any medium. Through the 1990s, many fax machines used thermal printing technology. Toward the beginning of the 21st century, however, thermal wax transfer, laser, and inkjet printing technology largely supplanted thermal printing technology in fax machines in order to allow plain-paper printouts.", 
+        ru: "Струйная печать. Принцип струйной печати был открыт инженером Canon в 1977 году. Струйные принтеры работают, выбрасывая капли жидкости или расплавленного материала (краски) переменного размера практически на любой носитель. В 1990-х годах многие факсимильные аппараты использовали технологию термопечати. Однако к началу 21 века технологии термовоскового переноса, лазерной и струйной печати в значительной степени вытеснили термопечать в факсах, чтобы обеспечить печать на обычной бумаге." },
+      { en: "The first digital press was introduced in 1993. Digital printing is the reproduction of digital images on a physical surface, such as common or photographic paper or paperboard-cover stock, film, cloth, plastic, vinyl, magnets, labels etc. Digital printing is widely used in personalized printing with the advent of variable data printing (VDP or VI). One example of this would be personalized childrens books from companies such as Wildfire Publishing who are using technologies from Xerox and XMPie to create 'one of' or 'single copy' digital books, which are customized with the children's image and name (Print On Demand). Other POD production would be short run books and booklets of varying page quantities, and binding techniques, which are most cost effectively produced in digital print shops.", 
+        ru: "Первая цифровая печатная машина была представлена в 1993 году. Цифровая печать — это воспроизведение цифровых изображений на физической поверхности, такой как обычная или фотографическая бумага, картон, пленка, ткань, пластик, винил, магниты, этикетки и т.д. Цифровая печать широко используется в персонализированной печати с появлением печати переменных данных. Примером могут служить персонализированные детские книги от таких компаний, как Wildfire Publishing, которые используют технологии Xerox и XMPie для создания «единичных» цифровых книг, настраиваемых с изображением и именем ребенка (печать по требованию). Другим производством по требованию являются книги и буклеты малых тиражей с различным количеством страниц и методами переплета, которые наиболее экономично производить в цифровых типографиях." },
+      { en: "3D (three-dimensional) printing is a category of rapid prototyping technology. A three dimensional object is created by layering and connecting successive cross sections of material. 3D printers are generally faster, more affordable and easier to use than other additive fabrication technologies. Previous means of producing a prototype typically took man-hours, many tools, and skilled labor. This typically was not a speedy process and costs of the skilled labor were not cheap. Hence there was the need to develop a faster and cheaper process to produce prototypes. As an answer to this need, rapid prototyping was born. One variation of 3D printing consists of an inkjet printing system. Today, the number of available technologies is used in 3d printing. Among them are the 3 main (laser stereolithography, printing the molten polymer filament, selective laser sintering) with some variations, which differ in the materials used, accuracy and principles of operation, and by printing devices. Every printed device is designed for a particular technology.", 
+        ru: "3D (трехмерная) печать — это категория технологии быстрого прототипирования. Трехмерный объект создается путем наслаивания и соединения последовательных поперечных сечений материала. 3D-принтеры, как правило, быстрее, доступнее и проще в использовании, чем другие технологии аддитивного производства. Прежние способы создания прототипа обычно требовали многочасового труда, множества инструментов и квалифицированной рабочей силы. Это, как правило, не было быстрым процессом, а затраты на квалифицированный труд были недешевыми. Поэтому возникла необходимость разработать более быстрый и дешевый процесс создания прототипов. В ответ на эту потребность родилось быстрое прототипирование. Один из вариантов 3D-печати состоит из системы струйной печати. Сегодня в 3D-печати используется ряд доступных технологий. Среди них 3 основных (лазерная стереолитография, печать расплавленной полимерной нитью, селективное лазерное спекание) с некоторыми вариациями, которые различаются используемыми материалами, точностью и принципами работы, а также печатающими устройствами. Каждое печатающее устройство предназначено для определенной технологии." }
+    ]
+  },
+  "📘 Unit 2: Prepress": {
+    paragraphs: [
+      { en: "Prepress includes all the processing steps required to go from the preparation of the text, original images and graphics as well as the design concept right up to the production of the ready-for-print printing plate. It is then employed at the printing stage to produce the job.", 
+        ru: "Допечатная подготовка включает все этапы обработки, необходимые для перехода от подготовки текста, оригинальных изображений и графики, а также концепции дизайна непосредственно к производству готовой к печати печатной формы. Затем она используется на этапе печати для изготовления продукции." },
+      { en: "A fundamental technological change has taken place within prepress. The use of conventional typesetting machines and film has been replaced by computer technology in virtually all branches of this industry. Text and image are digitized or actually created digitally, processed electronically and output directly onto the printing plate in print format, and increasingly without the use of film intermediates.", 
+        ru: "В допечатной подготовке произошли фундаментальные технологические изменения. Использование традиционных наборных машин и пленки было заменено компьютерными технологиями практически во всех отраслях этой индустрии. Текст и изображение оцифровываются или создаются в цифровом виде, обрабатываются электронным способом и выводятся непосредственно на печатную форму в печатном формате, все чаще без использования промежуточных пленок." },
+      { en: "The text data are primarily prepared in Word format, which has virtually become the word processing standard, since it is most widely used and offers many professional tools. The text data are very rarely edited directly in Word; instead they are positioned and typographically edited in a layout program (QuarkXPress, InDesign, or PageMaker).", 
+        ru: "Текстовые данные в основном подготавливаются в формате Word, который фактически стал стандартом обработки текста, поскольку он наиболее широко используется и предлагает множество профессиональных инструментов. Текстовые данные очень редко редактируются непосредственно в Word; вместо этого они позиционируются и типографически обрабатываются в программе верстки (QuarkXPress, InDesign или PageMaker)." },
+      { en: "The picture objects of a printed product are usually available as photograph, slide or reflection copy, and are scanned in, or digitized, for publication. The digital data are then available at a workstation for further processing. Graphics constitute the third main element of a printed page. They are generally generated in so-called illustration programs such as Freehand, Illustrator, or CorelDraw.", 
+        ru: "Изобразительные объекты печатной продукции обычно доступны в виде фотографии, слайда или непрозрачного оригинала и сканируются или оцифровываются для публикации. Затем цифровые данные доступны на рабочей станции для дальнейшей обработки. Графика составляет третий основной элемент печатной страницы. Она обычно создается в так называемых программах иллюстрирования, таких как Freehand, Illustrator или CorelDraw." },
+      { en: "Layout programs are software packages allowing for flexible, creative work and for integrating the elements (text, images, and graphics) on pages or a sequence of pages, or to position them on the page depending on the current job.", 
+        ru: "Программы верстки — это пакеты программного обеспечения, позволяющие гибко и творчески работать и интегрировать элементы (текст, изображения и графику) на страницах или последовательности страниц, либо позиционировать их на странице в зависимости от текущей задачи." },
+      { en: "In many cases, production servers make it possible to prepare data for output on different output systems such as film imagesetters (computer to film systems), computer to plate, computer to press/direct imaging or computer to print systems.", 
+        ru: "Во многих случаях производственные серверы позволяют подготавливать данные для вывода на различные системы вывода, такие как фотовыводные устройства (системы компьютер-пленка), системы компьютер-печатная форма, компьютер-печатная машина/прямое экспонирование или системы компьютер-печать." },
+      { en: "Modern imposition programs offer virtually any imposition pattern in prepress. Communication and consultation from accepting the order up to the binding is as essential as ever in spite of all the automation.", 
+        ru: "Современные программы спуска полос предлагают практически любую схему спуска в допечатной подготовке. Коммуникация и консультации от принятия заказа до переплета остаются как никогда важными, несмотря на всю автоматизацию." },
+      { en: "The proof should be a perfect sample of the later print run. Various paper qualities and printing processes should be taken into account. The ideal conditions for a proof would be to use the same press, same paper, and same ink. However, the question of cost and time constraints severely limits the demand for this perfect scenario.", 
+        ru: "Цветопроба должна быть идеальным образцом будущего тиража. Следует учитывать различные качества бумаги и печатные процессы. Идеальными условиями для цветопробы было бы использование той же печатной машины, той же бумаги и той же краски. Однако вопрос стоимости и временных ограничений серьезно ограничивает спрос на этот идеальный сценарий." },
+      { en: "Computer to plate technologies are widely used nowadays. A benefit of CtP is that another processing step, namely photographic platemaking (plate exposing via the film), becomes obsolete and direct imaging of the plate leads to an obvious increase in quality.", 
+        ru: "Технологии компьютер-печатная форма широко используются в настоящее время. Преимущество CtP заключается в том, что еще один этап обработки, а именно фотографическое изготовление форм (экспонирование форм через пленку), становится ненужным, а прямое экспонирование формы приводит к очевидному повышению качества." }
+    ]
+  },
+  "📗 Unit 3: Letterpress & Flexography": {
+    paragraphs: [
+      { en: "Letterpress (relief) printing is the oldest printing technology. Printing is done by means of raised printing elements. Letterpress printing is a mechanical technology in which a relatively high pressure is required to transfer the highly viscous, pasty ink to the paper via the hard printing elements. For centuries letterpress printing with rigid printing plates, made from alloys of lead, tin and antimony, was the dominant printing technology.", 
+        ru: "Высокая (рельефная) печать — старейшая технология печати. Печать осуществляется с помощью выступающих печатных элементов. Высокая печать — это механическая технология, при которой требуется относительно высокое давление для переноса высоковязкой, пастообразной краски на бумагу через жесткие печатные элементы. На протяжении веков высокая печать с жесткими печатными формами из сплавов свинца, олова и сурьмы была доминирующей технологией печати." },
+      { en: "In the last several decades, a modified letterpress printing method, flexography, has become increasingly more prevalent, especially in the packaging industry, for printing on the most varied materials. The term 'flexography' was introduced at the beginning of the 1950s (it was previously known as 'aniline printing').", 
+        ru: "В последние несколько десятилетий модифицированный метод высокой печати, флексография, становится все более распространенным, особенно в упаковочной промышленности, для печати на самых разнообразных материалах. Термин «флексография» был введен в начале 1950-х годов (ранее он был известен как «анилиновая печать»)." },
+      { en: "Unlike letterpress printing, flexography uses low viscosity inks and resilient or soft, flexible printing plates, and the pressure applied between plate cylinder and substrate is low. Because of the flexible printing plates, which were formerly made solely from rubber and are now made mostly from photopolymeric plastic, printing can be done on materials with very rough surfaces and even on fabrics.", 
+        ru: "В отличие от высокой печати, флексография использует краски с низкой вязкостью и упругие или мягкие, гибкие печатные формы, а давление между формным цилиндром и запечатываемым материалом низкое. Благодаря гибким печатным формам, которые раньше изготавливались исключительно из резины, а теперь в основном из фотополимерного пластика, печать возможна на материалах с очень шероховатыми поверхностями и даже на тканях." },
+      { en: "Flexography is the only printing technology by means of which printing can be done on very thin, flexible, and solid films, virtually all papers, thick cardboard and rough-surfaced packaging materials.", 
+        ru: "Флексография — единственная технология печати, с помощью которой можно печатать на очень тонких, гибких и твердых пленках, практически на всех видах бумаги, толстом картоне и упаковочных материалах с шероховатой поверхностью." },
+      { en: "Printing plates are either flat and fastened onto the plate cylinder with adhesive or double-sided adhesive film, or they are produced in cylindrical form. The flat plates are fastened in accurate register onto the plate cylinder with double-sided adhesive film.", 
+        ru: "Печатные формы либо плоские и крепятся на формный цилиндр с помощью клея или двусторонней клейкой пленки, либо изготавливаются в цилиндрической форме. Плоские формы крепятся с точной приводкой на формный цилиндр с помощью двусторонней клейкой пленки." },
+      { en: "Printing units usually consist of an inking unit, a plate cylinder and an impression cylinder. There are two different types of inking unit in current use: fountain roller system and doctor blade inking unit with anilox roller and blade, notably the chambered doctor blade.", 
+        ru: "Печатные секции обычно состоят из красочного аппарата, формного цилиндра и печатного цилиндра. В настоящее время используются два типа красочных аппаратов: система с дукторным валом и ракельный красочный аппарат с анилоксовым валом и ракелем, в частности камерный ракель." },
+      { en: "Advantages of flexography include cost-efficiency, quick turnaround time, high automation, and suitability for many materials. Disadvantages include not being ideal for smaller jobs, time-consuming setup, and limitations for complex artwork.", 
+        ru: "Преимущества флексографии включают экономическую эффективность, быструю переналадку, высокую автоматизацию и пригодность для многих материалов. Недостатки включают непригодность для малых тиражей, трудоемкую настройку и ограничения для сложных художественных работ." }
+    ]
+  },
+  "📙 Unit 4: Offset Printing": {
+    paragraphs: [
+      { en: "Offset printing is an indirect lithographic printing technology. Offset printing has spread markedly since approximately 1970. The offset printing technology is now one of the major printing technologies.", 
+        ru: "Офсетная печать — это непрямая литографическая технология печати. Офсетная печать значительно распространилась примерно с 1970 года. Сейчас офсетная печать является одной из основных технологий печати." },
+      { en: "In the offset printing process the printing and nonprinting areas of the plate are practically on one level. The printing areas of the printing plate are oleophilic - ink-accepting and water-repellent, that is, hydrophobic. The non-printing areas of the printing plate are hydrophilic, consequently oleophobic in behavior.", 
+        ru: "В процессе офсетной печати печатные и пробельные элементы формы находятся практически на одном уровне. Печатные элементы печатной формы олеофильны — воспринимают краску и отталкивают воду, то есть гидрофобны. Пробельные элементы печатной формы гидрофильны и, следовательно, олеофобны." },
+      { en: "The dampening system covers the non-printing areas of the printing plate with a thin film of dampening solution. This dampening solution (water plus additives) spreads over the non-printing areas. To achieve good wetting, surface tension has to be reduced by means of dampening solution additives.", 
+        ru: "Увлажняющая система покрывает пробельные элементы печатной формы тонкой пленкой увлажняющего раствора. Этот увлажняющий раствор (вода плюс добавки) растекается по пробельным элементам. Для достижения хорошего смачивания необходимо снизить поверхностное натяжение с помощью добавок к увлажняющему раствору." },
+      { en: "The plates used in offset printing are thin (up to about 0.3 mm), and easy to mount on the plate cylinder, and they mostly have a monometal (aluminum) or, less often, multimetal, plastic or paper construction. Aluminum has been gaining ground for a long time among the metal-based plates over zinc and steel.", 
+        ru: "Печатные формы, используемые в офсетной печати, тонкие (до 0,3 мм) и легко монтируются на формный цилиндр. Они в основном имеют монометаллическую (алюминиевую) или, реже, полиметаллическую, пластиковую или бумажную конструкцию. Алюминий уже давно завоевывает позиции среди форм на металлической основе, вытесняя цинк и сталь." },
+      { en: "Printing unit consists of inking and dampening units, the plate cylinder with the printing plate, the blanket cylinder with the blanket fixed to it, and the impression cylinder. The contact line between the blanket cylinder and the impression cylinder is called the printing nip.", 
+        ru: "Печатная секция состоит из красочного и увлажняющего аппаратов, формного цилиндра с печатной формой, офсетного цилиндра с закрепленным на нем полотном и печатного цилиндра. Линия контакта между офсетным и печатным цилиндрами называется полосой печатного контакта." },
+      { en: "Advantages of offset printing are: materials with different sheet size and grammages can be processed; nearly all finishing operations are possible; the quality is rather high. Disadvantages are: complicated method – causes misprints; sheet size just as big as machine size; expensive printing machines.", 
+        ru: "Преимущества офсетной печати: возможность обработки материалов с разным форматом и граммажом; возможны практически все отделочные операции; качество достаточно высокое. Недостатки: сложный метод — вызывает брак; формат листа ограничен размером машины; дорогое печатное оборудование." }
+    ]
+  },
+  "📕 Unit 5: Gravure Printing": {
+    paragraphs: [
+      { en: "Gravure printing (intaglio) is a very old printing process, the beginnings of which date back to the early fifteenth century. The distinctive feature of gravure printing technology is the fact that the image elements are engraved into the surface of the cylinder. The non-image areas are at a constant, original level.", 
+        ru: "Глубокая печать — это очень старый печатный процесс, истоки которого восходят к началу XV века. Отличительной особенностью технологии глубокой печати является то, что печатные элементы выгравированы на поверхности цилиндра. Пробельные элементы находятся на постоянном, исходном уровне." },
+      { en: "Before printing the entire printing plate is inked and flooded with ink. Ink is removed from the non-image by a wiper or blade before printing, so that ink remains only in the cells. The ink is transferred from the cells to the printing substrate by a high printing pressure and the adhesive forces between printing substrate and ink.", 
+        ru: "Перед печатью вся печатная форма закатывается и заливается краской. Перед печатью краска удаляется с пробельных элементов ракелем, так что краска остается только в ячейках. Краска переносится из ячеек на запечатываемый материал за счет высокого давления печати и адгезионных сил между материалом и краской." },
+      { en: "Gravure printing is principally used for very long print runs. The minimum print run is approximately one million copies. Weekly magazines of general interest and mail order catalogs are therefore the main products produced by means of gravure printing. Another major area is in the printing of packaging, from extremely thin foils to thick cardboard.", 
+        ru: "Глубокая печать в основном используется для очень больших тиражей. Минимальный тираж составляет примерно один миллион экземпляров. Поэтому еженедельные журналы общего интереса и каталоги почтовых заказов являются основными продуктами, производимыми с помощью глубокой печати. Еще одна важная область — печать упаковки, от очень тонких пленок до толстого картона." },
+      { en: "With gravure printing, straight printing and perfecting is done in systems where the first side of the web is printed in multicolor and then in-line on the opposite side. Web-fed gravure printing requires a gapless gravure cylinder, onto which the image is applied directly, by means of etching or engraving.", 
+        ru: "При глубокой печати односторонняя и двусторонняя печать выполняется в системах, где первая сторона полотна печатается в несколько красок, а затем в линию на обратной стороне. Рулонная глубокая печать требует бесшовного цилиндра глубокой печати, на который изображение наносится непосредственно травлением или гравированием." },
+      { en: "In gravure printing the ink must be applied into engraved cells of the gravure cylinder surface. For this the ink must have a very low viscosity. To fill the indented elements, that is, the etched or engraved cells, only requires an ink pan that is filled with gravure printing ink, into which the rotating gravure cylinder is immersed.", 
+        ru: "При глубокой печати краска должна наноситься в выгравированные ячейки поверхности цилиндра глубокой печати. Для этого краска должна иметь очень низкую вязкость. Для заполнения углубленных элементов, то есть вытравленных или выгравированных ячеек, требуется только красочный резервуар, наполненный краской для глубокой печати, в который погружается вращающийся цилиндр." },
+      { en: "The superfluous ink must be removed from the gravure cylinder surface by means of a doctor blade. This blade is often referred to as the 'soul' of gravure printing; its design is of immense importance.", 
+        ru: "Излишки краски должны удаляться с поверхности цилиндра глубокой печати с помощью ракельного ножа. Этот нож часто называют «душой» глубокой печати; его конструкция имеет огромное значение." },
+      { en: "Gravure printing enables high-quality and consistent reproduction of the finest photographic details in even the smallest of images on thin and flexible printing material. Many brand-name goods manufacturers employ gravure printing for the printing of their packaging for cigarettes, candy, soup packets, coffee, and other products.", 
+        ru: "Глубокая печать обеспечивает высококачественное и стабильное воспроизведение мельчайших фотографических деталей даже в самых маленьких изображениях на тонком и гибком печатном материале. Многие производители брендовых товаров используют глубокую печать для печати упаковки для сигарет, конфет, пакетов для супа, кофе и других продуктов." }
+    ]
+  },
+  "📔 Unit 6: Screen Printing": {
+    paragraphs: [
+      { en: "Screen printing is one of the most diversified processes for transferring ink and technical coatings. Its application ranges from artistic applications to the large-scale industrial sector, from single-item production to long print runs. Printing can be done on paper, textiles, ceramics, and plastics, in the form of webs and single sheets, and also on objects of the most varying nature and shape, such as control panels, mugs and glasses.", 
+        ru: "Трафаретная печать — один из самых разнообразных процессов переноса краски и технических покрытий. Ее применение варьируется от художественных применений до крупномасштабного промышленного сектора, от производства единичных изделий до больших тиражей. Печать возможна на бумаге, текстиле, керамике и пластике в виде рулонов и отдельных листов, а также на объектах самой разной природы и формы, таких как панели управления, кружки и стаканы." },
+      { en: "Screen printing is a push-through process, a special type of stencil printing, which means that during the printing process the ink passes through the screen and onto the substrate.", 
+        ru: "Трафаретная печать — это процесс продавливания, особый тип трафаретной печати, что означает, что в процессе печати краска проходит через сетку и попадает на запечатываемый материал." },
+      { en: "The ink surrounds the screen mesh and forms closed surfaces between the masking parts of the stencil. The stencil is placed on or within the screen, glued to it, and held in position in that way. So, the screen is merely a carrier for the stencil. The stencil is the carrier of the printed information. The printing plate is the combination of screen and stencil.", 
+        ru: "Краска окружает ячейки сетки и образует замкнутые поверхности между маскирующими частями трафарета. Трафарет размещается на или внутри сетки, приклеивается к ней и таким образом удерживается на месте. Таким образом, сетка является лишь носителем для трафарета. Трафарет является носителем печатной информации. Печатная форма — это комбинация сетки и трафарета." },
+      { en: "The ink is first spread over the plate by a squeegee with virtually no pressure. This takes place without contact between screen and substrate. This 'flooding' produces a cleaning of the ink residues remaining in and on the plate from the preceding printing processes. The ink is then pressed through the plate and onto the substrate with a higher squeegee pressure.", 
+        ru: "Сначала краска распределяется по форме ракелем практически без давления. Это происходит без контакта между сеткой и запечатываемым материалом. Эта «заливка» очищает остатки краски, оставшиеся в форме и на ней от предыдущих процессов печати. Затем краска продавливается через форму на запечатываемый материал с более высоким давлением ракеля." },
+      { en: "There are two types of screen printing machines: flat-bed and rotary. In flat-bed screen printing the printing plate and the substrate are on planes parallel to each other. Development of the rotary screen enabled repeat 'flatbed printing' of endless webs to be replaced by a continuous rotary printing process that is able to print without seams.", 
+        ru: "Существует два типа машин для трафаретной печати: планшетные и ротационные. При планшетной трафаретной печати печатная форма и запечатываемый материал находятся в параллельных плоскостях. Разработка ротационного трафарета позволила заменить повторяющуюся «планшетную печать» бесконечных полотен непрерывным ротационным процессом печати, способным печатать без швов." },
+      { en: "Since very thick films of ink are applied in screen printing, the drying process of the most commonly used solvent-based inks requires a relatively long time. Products lying flat, such as posters or clothing, are dried in drying racks and by blowers. Continuous ovens with different hot air blowers and/or radiation sources with UV light for UV inks are also used.", 
+        ru: "Поскольку при трафаретной печати наносятся очень толстые слои краски, процесс сушки наиболее часто используемых красок на основе растворителей требует относительно длительного времени. Изделия, лежащие плашмя, такие как плакаты или одежда, сушатся на сушильных тележках и с помощью воздуходувок. Также используются непрерывные сушилки с различными обдувами горячим воздухом и/или источниками излучения с УФ-светом для УФ-красок." }
+    ]
+  },
+  "📓 Unit 7: Non-Impact Printing": {
+    paragraphs: [
+      { en: "Non-impact printing technologies (NIP technologies) are technologies that do not require a solid printing plate with a fixed image and that can basically produce successive pages with different printed images.", 
+        ru: "Бесконтактные технологии печати — это технологии, которые не требуют твердой печатной формы с фиксированным изображением и которые в принципе могут производить последовательные страницы с разными печатными изображениями." },
+      { en: "A laser sends information to an intermediate carrier, a drum with a photoconductive coating, without impact in the traditional sense. The latent charged image on this drum is inked with toner and then transferred to the paper. There is, of course, contact between the inked information carrier and the paper during printing, but the information is not transferred by impact. This process is considered as non-impact printing.", 
+        ru: "Лазер отправляет информацию на промежуточный носитель, барабан с фотопроводящим покрытием, без удара в традиционном смысле. Скрытое заряженное изображение на этом барабане закатывается тонером и затем переносится на бумагу. Конечно, существует контакт между накатанным носителем информации и бумагой во время печати, но информация не переносится ударом. Этот процесс считается бесконтактной печатью." },
+      { en: "In NIP technologies there is no printing plate carrying permanent information. As a consequence, different information can be printed on every sheet. This has given rise to new, efficient ways of producing printed media, such as print on demand, personalization, book on demand, and so forth.", 
+        ru: "В бесконтактных технологиях нет печатной формы, несущей постоянную информацию. Как следствие, на каждом листе может печататься разная информация. Это привело к появлению новых эффективных способов производства печатной продукции, таких как печать по требованию, персонализация, книга по требованию и так далее." },
+      { en: "There is a number of non-impact printing technologies. They are named after physical or chemical principle they are based upon. Electrophotography, iconography, magnetography, ink jet, thermography, and photography are the main categories.", 
+        ru: "Существует ряд бесконтактных технологий печати. Они названы в честь физического или химического принципа, на котором основаны. Электрофотография, ионография, магнитография, струйная печать, термография и фотография являются основными категориями." },
+      { en: "In non-impact printing technologies, the physical effects for creating the image frequently require the use of special types of ink. In electrophotography powder toners or liquid toners are used. Ink jet technologies work with liquid inks of low viscosity as well as so-called hot-melt inks, and thermography uses ink that has been applied to ink donors.", 
+        ru: "В бесконтактных технологиях печати физические эффекты для создания изображения часто требуют использования специальных типов краски. В электрофотографии используются порошковые тонеры или жидкие тонеры. Струйные технологии работают с жидкими красками низкой вязкости, а также с так называемыми термоплавкими красками, а термография использует краску, нанесенную на доноры краски." },
+      { en: "Electrophotography is based on an invention by Chester Carlson. The electrophotographic printing process can be broken down into five steps: imaging, inking, toner transfer, fixing the toner, and cleaning.", 
+        ru: "Электрофотография основана на изобретении Честера Карлсона. Процесс электрофотографической печати можно разделить на пять этапов: формирование изображения, нанесение краски, перенос тонера, закрепление тонера и очистка." }
+    ]
+  },
+  "📒 Unit 8: Print Finishing": {
+    paragraphs: [
+      { en: "Finishing (postpress) is a segment of the print production flow in which the printed product is given its requested features of form and functions. The end products produced in the finishing process are characterized by the design and the functions that are determined by the information content.", 
+        ru: "Отделка (послепечатная обработка) — это сегмент потока печатного производства, в котором печатной продукции придаются требуемые характеристики формы и функций. Конечные продукты, производимые в процессе отделки, характеризуются дизайном и функциями, определяемыми информационным содержанием." },
+      { en: "Cutting and die-cutting. The cutting procedure is carried out in several print finishing procedures. The main applications are: paper cutting, cutting webs, trimming, cutting case material to size. Die-cutting is a process in which materials are cut in a specific pattern.", 
+        ru: "Резка и вырубная штамповка. Процедура резки выполняется в нескольких процедурах отделки печатной продукции. Основные применения: резка бумаги, резка рулонов, трехсторонняя обрезка, резка переплетного материала в размер. Вырубная штамповка — это процесс, при котором материалы вырезаются по определенному шаблону." },
+      { en: "Folding is the sharp-edged bending of paper webs or sheets under pressure at a prepared or unprepared bending point along a straight line according to specified dimensions and folding layouts.", 
+        ru: "Фальцовка — это изгиб с острым краем бумажных рулонов или листов под давлением в подготовленной или неподготовленной точке изгиба вдоль прямой линии в соответствии с заданными размерами и схемами фальцовки." },
+      { en: "Assembling is the production of a specific sequence of folded sheets, leaves, or webs into a loosely jointed block. Blocks binding is the production of a temporary or permanent connection of the collated book block by positive, non-positive, or bond jointing processes. Different methods of binding exist: thread-stitching; perfect binding; thread-sealing; wire-stitching.", 
+        ru: "Подборка — это создание определенной последовательности сфальцованных листов, страниц или полотен в свободно соединенный блок. Скрепление блоков — это создание временного или постоянного соединения подобранного книжного блока с помощью процессов геометрического, силового или адгезионного соединения. Существуют различные методы скрепления: шитье нитками, клеевое бесшвейное скрепление, шитье нитками с запечатыванием, шитье проволокой." },
+      { en: "Trimming. Blocks for hardcovers and brochures are cut on one, three or four sides to the final format, whereby the closed fold edges on the head, foot, and front side of the block are eliminated, if this is intended for the product.", 
+        ru: "Трехсторонняя обрезка. Блоки для твердых переплетов и брошюр обрезаются с одной, трех или четырех сторон до окончательного формата, при этом закрытые края фальцев на верхнем, нижнем и переднем краях блока удаляются, если это предусмотрено для продукта." },
+      { en: "Case making. The term 'covering' (or cover) stands for a design element that is a durable integral part of graphic products. They are connected inseparably or separably with a 'block'. The book finishing process contains: the assembly of book blocks, book covers, inserts, jackets; casing-in; inserting; smashing; forming a hinge fold; jacketing.", 
+        ru: "Изготовление переплетных крышек. Термин «покрытие» (или обложка) обозначает элемент дизайна, который является прочной неотъемлемой частью графической продукции. Они соединяются неразъемно или разъемно с «блоком». Процесс отделки книги включает: сборку книжных блоков, обложек, вкладок, суперобложек; вставку блока в переплет; комплектовку вкладкой; обжим блока; формирование отстава; изготовление суперобложки." },
+      { en: "Packaging. Mailing and distribution are also important postpress operations.", 
+        ru: "Изготовление упаковки. Рассылка и распространение также являются важными послепечатными операциями." }
+    ]
+  }
+};
+    // ---------- СОСТОЯНИЕ ----------
+    let currentScreen = 'start';
+    let selectedLists = {};
+    let currentWords = [];
+    let mode = null;
+    let allWords = [], learnedWords = [], notLearnedWords = [];
+    let score = 0, totalOriginal = 0, roundNum = 1, startTime = null;
+    let currentWordPair = null, waitingForResult = false;
+    let currentQuestionText = '', currentCorrectAnswer = '', currentTranscription = '', currentTranslit = '', currentDisplayWord = '';
+    let currentReadingTitle = '', translationVisible = false;
+    let currentTheme = 'medium';
+    let showModal = false;
+
+    // ---------- УТИЛИТЫ ----------
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]);
+    }
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}м ${s}с`;
+    }
+    function applyTheme() {
+      document.body.className = `theme-${currentTheme}`;
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      applyTheme();
+    }
+
+    // ---------- РЕНДЕР ----------
+    function render() {
+      applyTheme();
+      const app = document.getElementById('app');
+      if (showModal) {
+        app.innerHTML = renderWithModal();
+      } else {
+        if (currentScreen === 'start') app.innerHTML = renderStart();
+        else if (currentScreen === 'glossarySelect') app.innerHTML = renderGlossarySelect();
+        else if (currentScreen === 'mode') app.innerHTML = renderModeScreen();
+        else if (currentScreen === 'quiz') app.innerHTML = renderQuizScreen();
+        else if (currentScreen === 'results') app.innerHTML = renderResults();
+        else if (currentScreen === 'readingList') app.innerHTML = renderReadingList();
+        else if (currentScreen === 'readingDetail') app.innerHTML = renderReadingDetail();
+      }
+      attachGlobalListeners();
+    }
+
+    function renderWithModal() {
+      let baseHtml = '';
+      if (currentScreen === 'start') baseHtml = renderStart();
+      else if (currentScreen === 'glossarySelect') baseHtml = renderGlossarySelect();
+      else if (currentScreen === 'mode') baseHtml = renderModeScreen();
+      else if (currentScreen === 'quiz') baseHtml = renderQuizScreen();
+      else if (currentScreen === 'results') baseHtml = renderResults();
+      else if (currentScreen === 'readingList') baseHtml = renderReadingList();
+      else if (currentScreen === 'readingDetail') baseHtml = renderReadingDetail();
+      
+      const modalHtml = `
+        <div class="modal-overlay" id="modalOverlay">
+          <div class="modal-content">
+            <h3>📚 О тренажёре</h3>
+            <p>Тренажёр создан по курсу СДО <strong>"English for Printing Industry"</strong></p>
+            <p>Ссылка на подключение к курсу:</p>
+            <p><a href="https://online.mospolytech.ru/course/view.php?id=1158" target="_blank" style="color: #3498db; text-decoration: underline; word-break: break-all;">https://online.mospolytech.ru/course/view.php?id=1158</a></p>
+            <p><strong>Glossary</strong> — режим карточек. Вы выбираете словари, затем переводите <strong>(Вводить перевод не обязательно)</strong>. Слова, отмеченные как <strong>«не выучил»</strong>, повторяются в конце до тех пор, пока не будут отмечены как <strong>«выучил»</strong>.</p>
+            <p><strong>Reading</strong> — тексты с параллельным переводом.</p>
+            <p>Тему можно менять вверху (☀️🌓🌙).</p>
+            <p><em><p>Автор тренажёра: ТГ @ArtemSavitskiy</em></p>
+
+            <button id="closeModalBtn" class="btn-green" style="width:100%">Понятно</button>
+          </div>
+        </div>
+      `;
+      return baseHtml + modalHtml;
+    }
+
+    function renderHeader(showInfo = true) {
+      return `
+        <div class="home-corner">
+          <div class="home-left">
+            ${showInfo ? '<button class="info-btn" id="showInfoBtn">❓</button>' : ''}
+            <button class="home-btn" id="homeBtn">🏠</button>
+          </div>
+          <div class="theme-row">
+            <button class="theme-btn" data-theme="light">☀️</button>
+            <button class="theme-btn" data-theme="medium">🌓</button>
+            <button class="theme-btn" data-theme="dark">🌙</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStart() {
+      return `
+        ${renderHeader(true)}
+        <div class="card">
+          <h1>📚 ENGLISH TRAINER</h1>
+          <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 30px;">
+            <button id="gotoGlossaryBtn" class="btn-green" style="padding: 20px; font-size: 22px;">📖 GLOSSARY</button>
+            <button id="gotoReadingBtn" class="btn-orange" style="padding: 20px; font-size: 22px;">📄 READING</button>
+          </div>
+          <div class="info-text">
+            ✦ Учите слова по карточкам<br>
+            ✦ Читайте тексты с параллельным переводом.<br>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderGlossarySelect() {
+  let html = renderHeader(false) + `<div class="card"><h1>ВЫБЕРИТЕ СЛОВАРИ</h1><div class="word-list">`;
+  let index = 0;
+  for (let [name, words] of Object.entries(DICTIONARIES)) {
+    const checked = selectedLists[name] ? 'checked' : '';
+    // Используем data-index вместо data-name для надёжности
+    html += `<div class="list-item"><input type="checkbox" id="list_${index}" data-dict-name="${name.replace(/"/g, '&quot;')}" ${checked}><label>${escapeHtml(name)} <small>(${words.length})</small></label></div>`;
+    index++;
+  }
+  html += `</div><div style="display:flex;gap:8px;margin:15px 0"><button id="selectAllBtn" class="btn-outline" style="flex:1">Выбрать всё</button><button id="deselectAllBtn" class="btn-gray" style="flex:1">Очистить</button></div>
+    <button id="nextToModeBtn" class="btn-green" style="width:100%">ДАЛЕЕ →</button><div class="info-text">Выберите списки. Слова с отметкой «не выучил» будут повторяться.</div></div>`;
+  return html;
+}
+ 
+
+    function renderModeScreen() {
+  const selectedCount = Object.keys(selectedLists).length;
+  const total = currentWords.length;
+  return renderHeader(false) + `
+    <div class="card">
+      <div class="badge-stats">📚 Списков: ${selectedCount} | Слов: ${total}</div>
+      <h2>РЕЖИМ ТРЕНИРОВКИ</h2>
+      <button id="en2ruBtn" class="btn-green" style="width:100%; margin-bottom:12px;">🇬🇧 АНГЛ → РУС</button>
+      <button id="ru2enBtn" class="btn-orange" style="width:100%; margin-bottom:12px;">🇷🇺 РУС → АНГЛ</button>
+      <button id="backToSelectBtn" class="btn-gray" style="width:100%">← НАЗАД</button>
+    </div>`;
+}
+
+    function renderQuizScreen() {
+      if (!currentWordPair) return renderHeader(false) + '<div class="card">Загрузка...</div>';
+      const modeColor = mode==='en2ru'?'#3498db':'#e67e22';
+      const modeText = mode==='en2ru'?'EN → RU':'RU → EN';
+      const progress = notLearnedWords.length ? `🔄 Круг ${roundNum} | Выучено: ${score}/${totalOriginal} | Осталось: ${notLearnedWords.length}` : `📌 ${totalOriginal - allWords.length}/${totalOriginal} | Выучено: ${score}`;
+      return renderHeader(false) + `
+        <div class="card">
+          <div class="mode-badge" style="color:${modeColor}">${modeText}</div>
+          <div class="progress">${escapeHtml(progress)}</div>
+          <div class="question-box">
+            <div class="question-word">${escapeHtml(currentQuestionText)}</div>
+            <div id="inputContainer" style="display:${waitingForResult?'none':'block'}">
+              <input type="text" id="answerInput" placeholder="Введите перевод..." autocomplete="off">
+              <button id="checkBtn" class="btn-green" style="width:100%">ПРОВЕРИТЬ</button>
+            </div>
+            <div id="buttonsContainer" style="display:${waitingForResult?'block':'none'}">
+              <div class="quiz-prompt">Вы выучили это слово?</div>
+              <div class="button-group">
+                <button id="notLearnedBtn" class="btn-red">НЕ ВЫУЧИЛ</button>
+                <button id="learnedBtn" class="btn-green">ВЫУЧИЛ</button>
+              </div>
+            </div>
+            <div id="resultDiv"></div>
+          </div>
+        </div>`;
+    }
+
+    function renderResults() {
+      const elapsed = (Date.now() - startTime)/1000;
+      const percent = totalOriginal ? (score/totalOriginal*100).toFixed(1) : 0;
+      return renderHeader(false) + `
+        <div class="card">
+          <h2>📊 СТАТИСТИКА</h2>
+          <div class="stat-text" style="color: var(--text-color, inherit); text-align:center; padding:16px; font-size:1.2rem;">✅ Выучено: ${score}/${totalOriginal}<br>📈 ${percent}%<br>⏱️ ${formatTime(elapsed)}</div>
+          <div class="button-group"><button id="againBtn" class="btn-green">🔄 ЗАНОВО</button><button id="menuBtn" class="btn-gray">📋 ВЫБОР СПИСКОВ</button></div>
+        </div>`;
+    }
+
+    function renderReadingList() {
+      let html = renderHeader(false) + `<div class="card"><h2>📚 РАЗДЕЛЫ</h2><div class="word-list">`;
+      for (let title of Object.keys(READING_TEXTS)) {
+        html += `<div class="list-item" style="cursor:pointer;" data-reading-title="${escapeHtml(title)}"><label>${escapeHtml(title)}</label></div>`;
+      }
+      html += `</div><div class="info-text">Выберите текст для чтения</div></div>`;
+      return html;
+    }
+
+    function renderReadingDetail() {
+      const textObj = READING_TEXTS[currentReadingTitle];
+      const paragraphs = textObj?.paragraphs || [];
+      let parasHtml = '';
+      paragraphs.forEach(p => {
+        parasHtml += `<div class="en-paragraph">${escapeHtml(p.en)}</div><div class="ru-paragraph">${escapeHtml(p.ru)}</div>`;
+      });
+      return renderHeader(false) + `
+        <div class="card">
+          <div style="display:flex; gap:8px; margin-bottom:12px;"><button id="backToReadingListBtn" class="btn-gray">← Назад</button><button id="toggleTranslationBtn" class="btn-outline">👁️ ${translationVisible?'Скрыть':'Показать'} перевод</button></div>
+          <h2>${escapeHtml(currentReadingTitle)}</h2>
+          <div class="reading-section ${translationVisible?'':'hidden-translation'}">${parasHtml || '<div style="color:#ccc; text-align:center;">Текст появится позже</div>'}</div>
+        </div>`;
+    }
+
+    // ЛОГИКА
+    function startQuiz(quizMode) {
+      mode = quizMode;
+      startTime = Date.now();
+      allWords = shuffleArray([...currentWords]);
+      learnedWords = []; notLearnedWords = [];
+      score = 0; totalOriginal = allWords.length; roundNum = 1; waitingForResult = false;
+      currentScreen = 'quiz';
+      nextWord();
+    }
+
+    function nextWord() {
+      if (allWords.length === 0 && notLearnedWords.length === 0) { currentScreen = 'results'; render(); return; }
+      let nextPair;
+      if (allWords.length) nextPair = allWords.shift();
+      else {
+        notLearnedWords = shuffleArray(notLearnedWords);
+        nextPair = notLearnedWords.shift();
+      }
+      currentWordPair = nextPair;
+      const [en, ru, tr, tl] = nextPair;
+      if (mode === 'en2ru') {
+        currentQuestionText = en; currentCorrectAnswer = ru; currentTranscription = tr; currentTranslit = tl; currentDisplayWord = en;
+      } else {
+        currentQuestionText = ru; currentCorrectAnswer = en; currentTranscription = tr; currentTranslit = tl; currentDisplayWord = en;
+      }
+      waitingForResult = false;
+      render();
+    }
+
+    function checkAnswer() {
+      if (waitingForResult) return;
+      const input = document.getElementById('answerInput'); if(!input) return;
+      const userAnswer = input.value.trim();
+      const resultDiv = document.getElementById('resultDiv');
+      const extra = `<div class="extra-info"><div class="extra-info-line">📖 ${escapeHtml(currentDisplayWord)}</div><div class="extra-info-line">🔊 ${escapeHtml(currentTranscription)}</div><div class="extra-info-line">📝 ${escapeHtml(currentTranslit)}</div></div>`;
+      
+      if (userAnswer === '') {
+        resultDiv.innerHTML = `<div class="result result-neutral">${escapeHtml(currentQuestionText)} → ${escapeHtml(currentCorrectAnswer)}${extra}</div>`;
+      } else {
+        const userLower = userAnswer.toLowerCase();
+        const correctLower = currentCorrectAnswer.toLowerCase();
+        if (userLower === correctLower) {
+          resultDiv.innerHTML = `<div class="result result-correct">✅ ВЕРНО! ${escapeHtml(currentQuestionText)} → ${escapeHtml(currentCorrectAnswer)}${extra}</div>`;
+        } else {
+          resultDiv.innerHTML = `<div class="result result-wrong">❌ НЕВЕРНО! ${escapeHtml(currentQuestionText)} → ${escapeHtml(currentCorrectAnswer)}${extra}</div>`;
+        }
+      }
+      waitingForResult = true;
+      document.getElementById('inputContainer').style.display='none';
+      document.getElementById('buttonsContainer').style.display='block';
+      attachQuizButtons();
+    }
+
+    function handleLearned(learned) {
+      if (learned) { score++; learnedWords.push(currentWordPair); }
+      else { notLearnedWords.push(currentWordPair); }
+      nextWord();
+    }
+
+    function attachGlobalListeners() {
+      document.getElementById('homeBtn')?.addEventListener('click', ()=>{ currentScreen='start'; selectedLists={}; showModal=false; render(); });
+      
+      // Тема - теперь работает везде
+      document.querySelectorAll('[data-theme]').forEach(b=> b.addEventListener('click', (e)=>{
+        setTheme(e.target.dataset.theme);
+        // Не перерендериваем полностью, только применяем тему
+        // Но для корректного отображения текста статистики обновим её цвет через CSS переменную
+        document.body.style.setProperty('--text-color', 
+          currentTheme === 'light' ? '#1e293b' : 'white');
+      }));
+      
+      document.getElementById('showInfoBtn')?.addEventListener('click', ()=>{ showModal = true; render(); });
+      document.getElementById('closeModalBtn')?.addEventListener('click', ()=>{ showModal = false; render(); });
+      document.getElementById('modalOverlay')?.addEventListener('click', (e)=>{ if(e.target.id==='modalOverlay'){ showModal=false; render(); } });
+      
+      document.getElementById('gotoGlossaryBtn')?.addEventListener('click', ()=>{ currentScreen='glossarySelect'; render(); });
+      document.getElementById('gotoReadingBtn')?.addEventListener('click', ()=>{ currentScreen='readingList'; render(); });
+      
+     document.querySelectorAll('#selectAllBtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.list-item input[type=checkbox]').forEach(cb=>{ 
+    cb.checked = true; 
+    const dictName = cb.getAttribute('data-dict-name');
+    if (dictName) selectedLists[dictName] = true; 
+  });
+}));
+
+document.querySelectorAll('#deselectAllBtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.list-item input[type=checkbox]').forEach(cb=>{ 
+    cb.checked = false; 
+  });
+  selectedLists = {};
+}));
+
+document.getElementById('nextToModeBtn')?.addEventListener('click', ()=>{
+  const selected = Object.keys(selectedLists).filter(k=>selectedLists[k]);
+  if(!selected.length) { alert('Выберите хотя бы один словарь'); return; }
+  currentWords = []; selected.forEach(n=> currentWords.push(...DICTIONARIES[n]));
+  currentScreen='mode'; render();
+});
+
+document.querySelectorAll('.list-item input')?.forEach(cb=>cb.addEventListener('change', e=>{
+  const dictName = e.target.getAttribute('data-dict-name');
+  if (dictName) {
+    if(e.target.checked) selectedLists[dictName] = true; 
+    else delete selectedLists[dictName];
+  }
+}));
+      document.getElementById('en2ruBtn')?.addEventListener('click',()=>startQuiz('en2ru'));
+      document.getElementById('ru2enBtn')?.addEventListener('click',()=>startQuiz('ru2en'));
+      document.getElementById('backToSelectBtn')?.addEventListener('click',()=>{ currentScreen='glossarySelect'; render(); });
+
+      if(currentScreen==='quiz' && !waitingForResult){
+        document.getElementById('checkBtn')?.addEventListener('click', checkAnswer);
+        document.getElementById('answerInput')?.addEventListener('keypress', e=>{ if(e.key==='Enter'){ e.preventDefault(); checkAnswer(); } });
+      }
+      if(currentScreen==='quiz' && waitingForResult) attachQuizButtons();
+
+      document.getElementById('againBtn')?.addEventListener('click', ()=>startQuiz(mode));
+      document.getElementById('menuBtn')?.addEventListener('click', ()=>{ currentScreen='glossarySelect'; selectedLists={}; render(); });
+
+      document.querySelectorAll('[data-reading-title]').forEach(el=> el.addEventListener('click', ()=>{
+        currentReadingTitle = el.dataset.readingTitle; translationVisible = false; currentScreen='readingDetail'; render();
+      }));
+      document.getElementById('backToReadingListBtn')?.addEventListener('click', ()=>{ currentScreen='readingList'; render(); });
+      document.getElementById('toggleTranslationBtn')?.addEventListener('click', ()=>{ translationVisible = !translationVisible; render(); });
+    }
+
+    function attachQuizButtons() {
+      document.getElementById('notLearnedBtn')?.addEventListener('click', ()=>handleLearned(false));
+      document.getElementById('learnedBtn')?.addEventListener('click', ()=>handleLearned(true));
+    }
+
+    // Инициализация CSS переменной для цвета текста
+    document.body.style.setProperty('--text-color', 'white');
+    render();
+  })();
+</script>
+</body>
+</html>
